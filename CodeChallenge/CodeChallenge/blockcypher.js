@@ -13,6 +13,38 @@ var exec = require('child_process').exec;
 
 var exports = module.exports = {};
 
+// Returns TX object
+exports.getHash = function (hash) {
+    return new Promise(function (resolve, reject) {
+        var query = 'https://api.blockcypher.com/v1/btc/test3/txs/' + hash;
+
+        https.get(query, (resp) => {
+
+            var data = '';
+
+            // cat the data as it comes in
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            // handle the data
+            resp.on('end', () => {
+                var jsonObj = JSON.parse(data);
+
+                if (jsonObj['error']) {
+                    reject(jsonObj);
+
+                } else {
+                   
+                    console.log(jsonObj);
+                    resolve(jsonObj);
+                }
+
+            });  
+        });
+    });
+}
+
 exports.getAddress = function (address) {
     return new Promise(function (resolve, reject) {
         // Basic validation
@@ -68,8 +100,11 @@ exports.sendBitcoin = function (amount, to, from, publicKey, privateKey) {
             function (err, res, body) {
                 if (err) {
                     reject(err);
+                } else if (body == '') {
+                    err_json = { error: 'There was an issue with one or more inputs' };
+                    reject(err_json);
                 } else {
-                    
+
                     let tmptx = JSON.parse(body); // TXSkeleton
 
                     // Check for a transaction error

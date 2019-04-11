@@ -39,6 +39,15 @@
     <Compile Include="blockcypher.js">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="html\viewhash.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="html\viewhashes.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="html\viewhistory.html">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="sql\db-create.sql">
       <SubType>Code</SubType>
     </Content>

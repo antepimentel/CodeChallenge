@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="res/mystyle.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8" />
+    <meta charset="utf-8" />
+    <title>View Saved Hashes</title>
+</head>
+<body>
+
+       <h1>Saved Hashes</h1>
+       <table>
+           <% for (var i = 0; i < array.length; i++) { %>
+           <tr>
+               <td> <a href="http://localhost:1337/viewhash?hash=<%=array[i].txhash %>"> <%=array[i].txhash %>  </a>  </td>
+           </tr>
+           <tr>
+               <td></td>
+           </tr>
+           <% } %>
+       </table>
+</body>
+</html>

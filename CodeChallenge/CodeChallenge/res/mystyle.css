@@ -15,26 +15,6 @@ h1, h2, h3, h4, h5, h6 {
     margin: 10px 0
 }
 
-/*
-.button {
-    background-color: #555555; /* Black */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    transition-duration: 0.2s;
-}
-
-    .button:hover {
-        background-color: white;
-        color: black;
-        border: 2px solid #555555; /* Black */
-    }
-    */
-
 .disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -81,10 +61,23 @@ input[type=submit] {
     cursor: pointer;
     padding: 14px 16px;
     font-size: 17px;
-    width: 50%;
-    max-width: 270px;
+    width: 33%;
+    max-width: 180px;
 }
 
     .tablink:hover {
         background-color: #777;
     }
+
+table {
+    background-color: #f2f2f2;
+    color: black;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 33%;
+    max-width: 180px;
+}

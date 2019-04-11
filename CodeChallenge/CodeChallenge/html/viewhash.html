@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="res/mystyle.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8" />
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <h1>Viewing Transaction</h1>
+    <table border="1">
+        <tr>
+            <td>TX Hash</td>
+            <td><%=tx.hash %></td>
+        </tr>
+
+        <tr>
+            <td>Sender</td>
+            <td><%=tx.addresses[0] %></td>
+        </tr>
+
+        <tr>
+            <td>Receiver</td>
+            <td><%=tx.addresses[1] %></td>
+        </tr>
+
+        <tr>
+            <td>Amount (BTC) </td>
+            <td><%=tx.outputs[0].value * 0.00000001%></td>
+        </tr>
+
+        <tr>
+            <td>Date </td>
+            <td><%=tx.received %></td>
+        </tr>
+
+        <tr>
+            <td>Confirmations</td>
+            <td><%=tx.confirmations %></td>
+        </tr>
+    </table>
+
+</body>
+</html>

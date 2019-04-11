@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="res/mystyle.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
+    <title>Chart Test</title>
+</head>
+<body>
+
+    <h1>Total Bicoins Sent and Received</h1>
+    <canvas id="history" width="400" height="400"> </canvas>
+
+    <script type="text/javascript">
+        var canvas = document.getElementById("history").getContext('2d');
+
+        
+        var data = {
+            labels: ["Sent", "Received"],
+            datasets: [
+                {
+                    label: "",
+                    backgroundColor: ["#3e95cd", "#8e5ea2"],
+                    data: <%- JSON.stringify(dataset) %>
+                }
+            ]
+        };    
+      
+
+        window.onload = function () {
+            var chart = new Chart(canvas).Bar(data);
+        }
+            
+        
+    </script>
+</body>
+</html>
