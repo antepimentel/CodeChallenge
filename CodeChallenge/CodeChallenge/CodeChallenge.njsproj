@@ -45,7 +45,7 @@
     <Content Include="html\viewhashes.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="html\viewhistory.html">
+    <Content Include="html\viewstats.html">
       <SubType>Code</SubType>
     </Content>
     <Content Include="sql\db-create.sql">

@@ -13,7 +13,12 @@ var exec = require('child_process').exec;
 
 var exports = module.exports = {};
 
-// Returns TX object
+/**
+ * Gets a transaction object from a transaction hash
+ * 
+ * @param {any} hash
+ * @returns TX object
+ */
 exports.getHash = function (hash) {
     return new Promise(function (resolve, reject) {
         var query = 'https://api.blockcypher.com/v1/btc/test3/txs/' + hash;
@@ -45,6 +50,12 @@ exports.getHash = function (hash) {
     });
 }
 
+/**
+ * Gets an address object using blockcypher API
+ * 
+ * @param {any} address
+ * @returns Address object
+ */
 exports.getAddress = function (address) {
     return new Promise(function (resolve, reject) {
         // Basic validation
@@ -86,6 +97,15 @@ exports.getAddress = function (address) {
     });
 }
 
+/**
+ * Tries to send bitcoin according to the given inputs
+ * 
+ * @param {any} amount
+ * @param {any} to
+ * @param {any} from
+ * @param {any} publicKey
+ * @param {any} privateKey
+ */
 exports.sendBitcoin = function (amount, to, from, publicKey, privateKey) {
     
     return new Promise(function (resolve, reject) {

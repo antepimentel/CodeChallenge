@@ -15,8 +15,7 @@
 
     <script type="text/javascript">
         var canvas = document.getElementById("history").getContext('2d');
-
-        
+ 
         var data = {
             labels: ["Sent", "Received"],
             datasets: [
@@ -28,7 +27,6 @@
             ]
         };    
       
-
         window.onload = function () {
             var chart = new Chart(canvas).Bar(data);
         }

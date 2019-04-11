@@ -3,7 +3,6 @@ var bodyParser = require('body-parser');
 var express = require('express'); 
 var blockcypher = require('./blockcypher.js');
 var backend = require('./backend.js');
-var Chart = require('chartJS');
 
 var app = express();
 var port = process.env.PORT || 1337;
@@ -15,7 +14,7 @@ var index_page = 'html/index.html';
 var confirm_page = 'html/confirm.html';
 var viewhashes_page = 'html/viewhashes.html';
 var viewhash_page = 'html/viewhash.html';
-var viewhistory_page = 'html/viewhistory.html';
+var viewstats_page = 'html/viewstats.html';
 
 // initialize the backend
 backend.init();
@@ -91,29 +90,17 @@ app.post('/send', function (req, res) {
     }
 })
 
-app.get('/history', function (req, res) {
+// This is a request to view stats about a given address
+app.get('/stats', function (req, res) {
     // Grab the user input
     var address = url.parse(req.url, true).query.address;
 
     blockcypher.getAddress(address)
         .then((result) => {
-
-            //var balance = result['balance'] / Math.pow(10, 8);
-            
-            //var mychart = new Chart(ctx, {});
-
-            // Build dataset from txref array
+ 
             var data = [];
-            /*for (var i = 0; i < txrefs.length; i++) {
-                if (txrefs[i].confirmed) {
-                    var tmp = {
-                        x: txrefs[i].confirmed,
-                        y: txrefs[i].value
-                    };
-                    data.push(tmp);
-                }
-            }*/ 
 
+            // Convert to BTC
             var total_sent = result['total_sent'] / Math.pow(10, 8);
             var total_rec = result['total_received'] / Math.pow(10, 8);
 
@@ -121,7 +108,7 @@ app.get('/history', function (req, res) {
             data.push(total_rec);
 
             console.log("DATA: " + data);
-            res.render(viewhistory_page, { dataset: data });
+            res.render(viewstats_page, { dataset: data });
             res.end();
         })
         .catch((err) => {
@@ -131,14 +118,15 @@ app.get('/history', function (req, res) {
         });
 })
 
+// This is a request to view hashes saved in the DB
 app.get('/transactions', function (req, res) {
-
     backend.retrieveHashes()
         .then((result) => {
             res.render(viewhashes_page, { array: result });
         })
 })
 
+// This is arequest to view a specific hash
 app.get('/viewhash', function (req, res) {
 
     var hash = url.parse(req.url, true).query.hash;
@@ -160,5 +148,3 @@ app.listen(port, () => console.log('Listening on port ' + port));
  * "address": "mk4UNSVkZzLmDHpkKne6NqdNeWh1wEQTFk"
  * "wif": "cVXAFxQHYHiF2GgTjPymxas7Ypgyv3Y4LUz6gGUXA1QtCtbz5EeA"
  */
-
-// 17xpHyQQSUHBF3sHnpJYXEcv41z3NuGLJu
