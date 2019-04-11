@@ -7,10 +7,11 @@
     "name": ""
   },
   "dependencies": {
-    "blockcypher": "^0.2.0",
+    "chartjs": "^0.3.24",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "mysql": "^2.16.0",
-    "properties-reader": "0.0.16"
+    "properties-reader": "0.0.16",
+    "request": "^2.88.0"
   }
 }

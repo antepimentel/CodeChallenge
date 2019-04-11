@@ -13,7 +13,7 @@ var exec = require('child_process').exec;
 
 var exports = module.exports = {};
 
-exports.getBalance = function (address) {
+exports.getAddress = function (address) {
     return new Promise(function (resolve, reject) {
         // Basic validation
         if (address) {
@@ -23,7 +23,6 @@ exports.getBalance = function (address) {
             // Query the blockcypher api
             https.get(query, (resp) => {
 
-                console.log(query);
                 var data = '';
 
                 // cat the data as it comes in
@@ -36,30 +35,21 @@ exports.getBalance = function (address) {
                     var jsonObj = JSON.parse(data);
 
                     if (jsonObj['error']) {
-                        //console.log(jsonObj['error']);
                         reject(jsonObj);
                         
-                        //res.render(error_page, jsonObj);
                     } else {
-                        var balance = jsonObj['balance'];
-
-                        balance = balance * 0.00000001;
-
+                        //var balance = jsonObj['balance'];
+                        //balance = balance * 0.00000001;
                         console.log(jsonObj);
-                        console.log(balance);
-                        resolve(balance);
-                        //res.render(balance_page, { balance: balance.toString() });
-                        //res.end();
+                        resolve(jsonObj);
                     }
 
                 });
             });
         } else {
             var error = { error: 'Field must not be blank' };
-            //console.log(error['error']);
             reject(error);
-            
-            //res.render(error_page, error);
+
         }
     });
 }
@@ -94,8 +84,16 @@ exports.sendBitcoin = function (amount, to, from, publicKey, privateKey) {
 
                         // Using the signer binary provided by BlockCypher
                         // Signer input: DataHex PrivateHex
-                        var signerProcess = exec('signer ' + dataToSign + ' ' + privateKey);
+                        var OS = process.platform;
+                        console.log("OS: " + OS);
 
+                        var signerProcess;
+                        if (OS == "win32") {
+                            signerProcess = exec('signer ' + dataToSign + ' ' + privateKey);
+                        } else {
+                            signerProcess = exec('./signer_linux ' + dataToSign + ' ' + privateKey);
+                        }
+                      
                         // Wait for results
                         var result = '';
                         signerProcess.stdout.on('data', function (data) {
@@ -131,7 +129,7 @@ exports.sendBitcoin = function (amount, to, from, publicKey, privateKey) {
                                             reject(finaltx.error);
 
                                         } else {
-                                            resolve(finaltx.tx.hash);
+                                            resolve(finaltx.tx);
                                         }
                                     }
                                 }

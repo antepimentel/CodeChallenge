@@ -2,41 +2,62 @@
 var propReader = require('properties-reader');
 var properties = propReader('./properties.ini');
 
-//var db_name = "4413_project_DB";
+// Get DB info from the properties file
+var host = properties.get('db.host').toString();
+var user = properties.get('db.user').toString();
+var pass = properties.get('db.pass').toString();
+var db = properties.get('db.name').toString();
+
+var pool;
 
 var exports = module.exports = {};
 
-exports.connect = function () {
+/**
+ * Initializes the DB connection pool
+ */
+exports.init = function () {
+   pool = mysql.createPool({
+        connectionLimit: 100,
+        host: host,
+        user: user,
+        password: pass,
+        database: db,
+        debug: false
+    });
+    console.log("Connection pool created");
+}
+
+/**
+ * Retrieves all tx hashes in the DB
+ * @returns RowDataPacket array
+ */
+exports.retrieveHashes = function () {
     return new Promise(function (resolve, reject) {
-
-        var host = properties.get('db.host').toString();
-        var user = properties.get('db.user').toString();
-        var pass = properties.get('db.pass').toString();
-        var db = properties.get('db.name').toString();
-
-        console.log(host + user + pass + db);
-        var con = mysql.createConnection({
-            host: host,
-            user: user,
-            password: pass
-        });
-
-        con.connect(function (err) {
-            if (err) reject(err);
-            console.log("Connected!");
-            con.query("use " + db, function (err, result) {
+        pool.getConnection(function (err, con) {
+            con.query("select * from TX_HISTORY", function (err, result) {
                 if (err) reject(err);
-                //console.log("Using: " + db_name);
-                resolve("Using: " + db);
+                Object.keys(result).forEach(function (key) {
+                    var row = result[key];
+                    console.log(row.name)
+                }); 
+                resolve(result);
             });
         });
     });
 }
 
+/**
+ * Inserts a hash into the DB
+ * @param {any} hash
+ */
 exports.addHash = function (hash) {
-
-}
-
-exports.retrieveAllHashes = function () {
-
+    return new Promise(function (resolve, reject) {
+        pool.getConnection(function (err, con) {
+            con.query("insert into TX_HISTORY (txhash) values (\'"+hash+"\')"
+                    , function (err, result) {
+                if (err) reject(err); 
+                resolve("Result: Success?");
+            });
+        });
+    });
 }
